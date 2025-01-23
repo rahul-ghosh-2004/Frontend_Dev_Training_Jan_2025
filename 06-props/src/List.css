@@ -1,0 +1,6 @@
+.main-container {
+    display: flex;
+    width: auto;
+    height: auto;
+    column-gap: 10px;
+}
