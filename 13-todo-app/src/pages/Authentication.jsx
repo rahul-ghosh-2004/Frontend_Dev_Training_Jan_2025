@@ -33,6 +33,8 @@ function Authentication() {
         "password": ""
     })
 
+    // console.log(signupData);
+
     const handleSigninPass = (e) => {
         setSigninData((prev) => {
             return { ...prev, password: e.target?.value }
@@ -44,7 +46,8 @@ function Authentication() {
         setLoadingStatus(true)
 
         try {
-            const reqInstance = await axios.post("https://lcscodelab.vercel.app/api/v1/user/signin",
+            // just write import.meta in the place of process
+            const reqInstance = await axios.post(import.meta.env.VITE_USER_SIGNIN,
                 signindata,
                 {
                     withCredentials: true,
@@ -58,6 +61,32 @@ function Authentication() {
             setLoadingStatus(false)
         } catch (error) {
             console.error(error?.response?.data)
+            setLoadingStatus(false)
+        }
+    }
+
+    const handleSignUp = async (e) => {
+        e.preventDefault()
+
+        setLoadingStatus(true)
+        try {
+            const requestInstance = await axios.post(
+                import.meta.env.VITE_USER_SIGNUP,
+                signupData,
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            )
+
+            toast.success(requestInstance?.data?.message)
+            // console.log(requestInstance?.data);
+            setLoadingStatus(false)
+        } catch (error) {
+            // console.error(error?.response?.data);
+            toast.error(error?.response?.data?.message)
             setLoadingStatus(false)
         }
     }
@@ -109,19 +138,23 @@ function Authentication() {
                         <CardContent className="space-y-2">
                             <div className="space-y-1">
                                 <Label htmlFor="name">Name</Label>
-                                <Input id="name" type="text" placeholder="Alex Mark" />
+                                <Input id="name" type="text" placeholder="Alex Mark" onChange={(e) => { setSignupData((prev) => { return { ...prev, name: e.target?.value } }) }}/>
                             </div>
                             <div className="space-y-1">
                                 <Label htmlFor="email">E-Mail</Label>
-                                <Input id="email" type="email" placeholder="example@gmail.com" />
+                                <Input id="email" type="email" placeholder="example@gmail.com" onChange={(e) => { setSignupData((prev) => { return { ...prev, email: e.target?.value } }) }}/>
                             </div>
                             <div className="space-y-1">
                                 <Label htmlFor="password">Password</Label>
-                                <Input id="password" type="password" placeholder="RE16!@kj" />
+                                <Input id="password" type="password" placeholder="RE16!@kj" onChange={(e) => { setSignupData((prev) => { return { ...prev, password: e.target?.value } }) }}/>
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button className="w-full mx-auto">Sign Up</Button>
+                            <Button className="w-full mx-auto" onClick={handleSignUp} disabled={loadingStatus}>
+                            {
+                                    loadingStatus ? <LoaderCircle className='animate-spin' /> : "Sign Up"
+                                }
+                            </Button>
                         </CardFooter>
                     </Card>
                 </TabsContent>
