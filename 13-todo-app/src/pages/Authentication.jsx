@@ -19,6 +19,7 @@ import {
 import axios from 'axios'
 import { LoaderCircle } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom'
 
 
 function Authentication() {
@@ -32,6 +33,7 @@ function Authentication() {
         "email": "",
         "password": ""
     })
+    const navigate = useNavigate()
 
     // console.log(signupData);
 
@@ -58,6 +60,10 @@ function Authentication() {
 
             console.log(reqInstance?.data);
             toast.success(reqInstance?.data?.message)
+            setTimeout(() => {
+                navigate("/")
+            }, 1000)
+            // navigate("/")
             setLoadingStatus(false)
         } catch (error) {
             console.error(error?.response?.data)
