@@ -80,6 +80,25 @@ function Home() {
         }
     }
 
+    const deleteTodo = async (id) => {
+        try {
+            const requestInstance = await axios.delete(
+                import.meta.env.VITE_DELETE_TODO,
+                { "_id": id },
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            )
+
+            console.log(requestInstance);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const getTodos = async () => {
         try {
             setLoadingStatus(true)
@@ -129,7 +148,7 @@ function Home() {
                 {
                     todoData?.length === 0 ? "Todo not found!" : (
                         todoData.map((value) => {
-                            return <Todo todoText={value?.todoText} key={Math.random()} />
+                            return <Todo todoText={value?.todoText} _id={value?._id} deleteTodo={deleteTodo} key={Math.random()} />
                         })
                     )
                 }
