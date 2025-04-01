@@ -84,8 +84,8 @@ function Home() {
         try {
             const requestInstance = await axios.delete(
                 import.meta.env.VITE_DELETE_TODO,
-                { "_id": id },
                 {
+                    data: { "_id": id },
                     withCredentials: true,
                     headers: {
                         "Content-Type": "application/json"
@@ -98,6 +98,13 @@ function Home() {
             console.log(error);
         }
     }
+
+    // const updateTodo = async (id, todoText) => {
+    //         data: {
+    //             "_id": id,
+    //             "todoText": todoText
+    //         }
+    // }
 
     const getTodos = async () => {
         try {
@@ -148,7 +155,7 @@ function Home() {
                 {
                     todoData?.length === 0 ? "Todo not found!" : (
                         todoData.map((value) => {
-                            return <Todo todoText={value?.todoText} _id={value?._id} deleteTodo={deleteTodo} key={Math.random()} />
+                            return <Todo todoText={value?.todoText} _id={value?._id} deleteTodo={deleteTodo} updateTodo={""} key={Math.random()} />
                         })
                     )
                 }
