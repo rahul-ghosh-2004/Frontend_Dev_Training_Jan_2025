@@ -9,6 +9,25 @@ import toast, { Toaster } from 'react-hot-toast';
 import { LoaderCircle } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux'
 import { addTodo } from '@/redux/features/todoSlice'
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+} from "@/components/ui/avatar"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuPortal,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 function Home() {
     const [text, setText] = useState("")
@@ -144,10 +163,37 @@ function Home() {
 
             <Toaster position="bottom-right"
                 reverseOrder={false} />
-            <div className='w-[550px] flex gap-x-2 mt-10'>
-                {/* Input and Button */}
-                <Input type="text" placeholder="Please enter a text ..." className="lg:min-w-80 md:min-w-72 sm:min-w-64" onChange={(e) => { setText(e.target?.value) }} value={text} />
-                <Button onClick={handleCreateTodo}>Add</Button>
+            <div className='flex items-center justify-center'>
+                <div className='w-[550px] flex gap-x-2 mt-10'>
+                    {/* Input and Button */}
+                    <Input type="text" placeholder="Please enter a text ..." className="lg:min-w-80 md:min-w-72 sm:min-w-64" onChange={(e) => { setText(e.target?.value) }} value={text} />
+                    <Button onClick={handleCreateTodo}>Add</Button>
+                </div>
+
+                <Avatar className="fixed right-10 top-9">
+                    {/* <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" /> */}
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            {/* <Button variant="outline">Open</Button> */}
+                            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56">
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuGroup>
+                                <DropdownMenuItem>
+                                    Profile
+                                    <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                                </DropdownMenuItem>            
+                            </DropdownMenuGroup>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={""}>
+                                Log out
+                                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </Avatar>
             </div>
 
             <div className='mt-16 flex items-center justify-evenly flex-wrap gap-x-5 gap-y-5'>
